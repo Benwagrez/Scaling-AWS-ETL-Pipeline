@@ -32,3 +32,7 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+packages/*
+ETL_data_query_payload.zip
+ETL_proc_action_payload.zip
