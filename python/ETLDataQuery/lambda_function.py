@@ -2,12 +2,12 @@ import boto3
 import json
 import os
 
-inputbucketname = os.environ["inputbucketname"] # 'octovmwebsitearm'
-cronjobcadence  = os.environ["cronjobcadence"] # how often a cron job it run, to pull from previous pull
-deployvm        = os.environ["deployvm"]
-deploylambda    = os.environ["deploylambda"]
-deploycontainer = os.environ["deploycontainer"]
-output          ='s3://'+inputbucketname+'/dataquery/'# Where API query results will be stored
+DataOutputBucketName = os.environ["DataOutputBucketName"] # 'octovmwebsitearm'
+cronjobcadence       = os.environ["cronjobcadence"] # how often a cron job it run, to pull from previous pull
+deployvm             = os.environ["deployvm"]
+deploylambda         = os.environ["deploylambda"]
+deploycontainer      = os.environ["deploycontainer"]
+output               ='s3://'+DataOutputBucketName+'/dataquery/'# Where API query results will be stored
 
 def lambda_handler(event, context):
     if deployvm == True:

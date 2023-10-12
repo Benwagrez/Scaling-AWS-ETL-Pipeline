@@ -20,6 +20,10 @@ variable "TerraformSPNArn" {
   description = "Arn of the service principal deploying the Terraform code (user owner of access key)."
 }
 
+variable "region" {
+    type = string
+}
+
 variable "AWS_ACCESS_KEY" {
     type = string
 }
@@ -29,10 +33,6 @@ variable "AWS_SECRET_KEY" {
 }
 
 # Core Infra Variables
-
-variable "DataInputBucketName" {
-    type = string
-}
 
 variable "DataOutputBucketName" {
     type = string

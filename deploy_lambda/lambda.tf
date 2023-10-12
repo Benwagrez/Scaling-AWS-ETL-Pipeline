@@ -17,7 +17,7 @@ resource "aws_lambda_function" "lambda_deploy" {
   timeout = 60
   environment {
     variables = {
-      bucketname                  = var.log_bucket
+      bucketname                  = var.outputbucketid
     }
   }
 

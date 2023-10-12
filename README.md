@@ -23,7 +23,7 @@ These deployment strategies will be broken down below. Details will be shared ar
         <th>Status</th><th>Deployment Cost</th>
     </tr>
     <tr>
-        <td>Not Started</td><td>$X> EC2 infra costs / $1> S3 storage costs</td>
+        <td>WIP</td><td>TBD</td>
     </tr>
 </table>
 The architecture diagram for this diagram is displayed below:
@@ -38,7 +38,7 @@ TBD
         <th>Status</th><th>Deployment Cost</th>
     </tr>
     <tr>
-        <td>Not Started</td><td>TBD</td>
+        <td>WIP</td><td>TBD</td>
     </tr>
 </table>
 The architecture diagram for this diagram is displayed below:

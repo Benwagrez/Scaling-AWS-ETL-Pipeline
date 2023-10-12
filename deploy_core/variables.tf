@@ -7,10 +7,10 @@ variable "common_tags" {
   }
 }
 
-variable "deployvm" {
-    type = bool
-    default = false
-}
+# variable "deployvm" {
+#     type = bool
+#     default = false
+# }
 
 variable "deploylambda" {
     type = bool
@@ -30,11 +30,6 @@ variable "TerraformSPNArn" {
 variable "DataQueryCadence" {
   type = string
   default = "1 day"
-  description = "Name of the ETL input bucket"
-}
-
-variable "DataInputBucketName" {
-  type = string
   description = "Name of the ETL input bucket"
 }
 

@@ -24,7 +24,7 @@ resource "aws_iam_role" "iam_for_lambda" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-# Created S3 & Athena access Policy for IAM Role
+# Created S3 access Policy for IAM Role
 resource "aws_iam_policy" "policy" {
   name = "LambdaS3AccessPolicy"
   description = "Access policy granting Lambda access to S3 bucket where data will go through the ETL process."
@@ -50,7 +50,7 @@ resource "aws_iam_policy" "policy" {
 				"s3:ListAllMyBuckets",
 				"s3:GetObjectAttributes"
 			],
-			"Resource": [ "arn:aws:s3:::${var.DataOutputBucketName}/*", "arn:aws:s3:::${var.DataOutputBucketName}", "arn:aws:s3:::${var.DataInputBucketName}/*", "arn:aws:s3:::${var.DataInputBucketName}" ]
+			"Resource": [ "arn:aws:s3:::${var.DataOutputBucketName}/*", "arn:aws:s3:::${var.DataOutputBucketName}"]
 		},
 		{
 			"Effect": "Allow",

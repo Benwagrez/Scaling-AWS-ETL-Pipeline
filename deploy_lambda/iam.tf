@@ -50,7 +50,7 @@ resource "aws_iam_policy" "policy" {
 				"s3:ListAllMyBuckets",
 				"s3:GetObjectAttributes"
 			],
-			"Resource": [ "arn:aws:s3:::${var.log_bucket}/*", "arn:aws:s3:::${var.log_bucket}" ]
+			"Resource": [ "arn:aws:s3:::${var.outputbucketid}/*", "arn:aws:s3:::${var.outputbucketid}" ]
 		},
 		{
 			"Effect": "Allow",

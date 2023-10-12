@@ -17,9 +17,9 @@ resource "aws_lambda_function" "lambda_deploy" {
   timeout = 30
   environment {
     variables = {
-      inputbucketname = var.DataInputBucketName
+      DataOutputBucketName = var.DataOutputBucketName
       cronjobcadence  = var.DataQueryCadence
-      deployvm        = var.deployvm
+      # deployvm        = var.deployvm
       deploylambda    = var.deploylambda
       deploycontainer = var.deploycontainer
     }

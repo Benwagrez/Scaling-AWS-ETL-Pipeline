@@ -10,7 +10,7 @@
 
 locals {
   common_tags = {
-    Infra = var.deployvm ? "deploy_vm" : var.deploycontainer ? "deploy_container" : var.deploylambda ? "deploy_lambda" : ""
+    Infra = var.deploycontainer ? "deploy_container" : var.deploylambda ? "deploy_lambda" : "" #var.deployvm ? "deploy_vm" : 
     Owner = "benwagrez@gmail.com"
   }
 }
@@ -23,10 +23,6 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
-    }
-    acme = {
-      source  = "vancluever/acme"
-      version = "2.16.1"
     }
   }
 }
@@ -56,7 +52,8 @@ provider "random" {
 module "core_infra_deployment" {
   source = "./deploy_core"
 
-  deployvm             = var.deployvm
+  TerraformSPNArn      = data.aws_caller_identity.current.arn
+  # deployvm             = var.deployvm
   deploylambda         = var.deploylambda
   deploycontainer      = var.deploycontainer
   DataOutputBucketName = var.DataOutputBucketName
@@ -68,21 +65,21 @@ module "lambda_batch_deployment" {
   source = "./deploy_lambda"
 
   outputbucketid   = module.core_infra_deployment.outputbucketid
-  common_tags     = local.common_tags
+  common_tags      = local.common_tags
 } 
 
-module "vm_batch_deployment" {
-  count  = var.deployvm ? 1 : 0
-  source = "./deploy_vm"
+# module "vm_batch_deployment" {
+#   count  = var.deployvm ? 1 : 0
+#   source = "./deploy_vm"
 
-  outputbucketid   = module.core_infra_deployment.outputbucketid
-  common_tags    = local.common_tags
-}
+#   outputbucketid   = module.core_infra_deployment.outputbucketid
+#   common_tags      = local.common_tags
+# }
 
 module "container_batch_deployment" {
   count  = var.deploycontainer ? 1 : 0
   source = "./deploy_container"
 
   outputbucketid   = module.core_infra_deployment.outputbucketid
-  common_tags    = local.common_tags
+  common_tags      = local.common_tags
 }
