@@ -20,8 +20,8 @@ resource "aws_batch_compute_environment" "ecs_batch" {
   depends_on   = [aws_iam_role_policy_attachment.aws_batch_service_role]
 }
 
-resource "aws_batch_job_definition" "test" {
-  name = "tf_test_batch_job_definition"
+resource "aws_batch_job_definition" "ecs_batch_job" {
+  name = "ecs_batch_job_definition"
   type = "container"
 
   platform_capabilities = [

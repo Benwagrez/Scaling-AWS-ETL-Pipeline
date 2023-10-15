@@ -4,10 +4,10 @@
 # Purpose
 # Deploy data bucket
 #
-############################################
-########## S3 bucket for website ###########
-############################################
-resource "aws_s3_bucket" "data_input_bucket" {
+################################################
+########## S3 bucket for data output ###########
+################################################
+resource "aws_s3_bucket" "data_output_bucket" {
   bucket = var.DataOutputBucketName
 
   tags = "${merge(
@@ -18,24 +18,24 @@ resource "aws_s3_bucket" "data_input_bucket" {
   )}" 
 }
 
-resource "aws_s3_bucket_ownership_controls" "data_input_bucket_acl_ownership" {
-  bucket = aws_s3_bucket.data_bucket.id
+resource "aws_s3_bucket_ownership_controls" "data_output_bucket_acl_ownership" {
+  bucket = aws_s3_bucket.data_output_bucket.id
   rule {
     object_ownership = "ObjectWriter"
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "data_input_bucket_access" {
-  bucket = aws_s3_bucket.data_bucket.id
+resource "aws_s3_bucket_public_access_block" "data_output_bucket_access" {
+  bucket = aws_s3_bucket.data_output_bucket.id
 
   block_public_acls       = true 
-  block_public_policy     = true
+  block_public_policy     = false
   ignore_public_acls      = true
-  restrict_public_buckets = true 
+  restrict_public_buckets = false 
 }
 
-resource "aws_s3_bucket_policy" "data_input_bucket_S3_private_read_only" {
-  bucket = aws_s3_bucket.data_bucket.id
+resource "aws_s3_bucket_policy" "data_output_bucket_S3_private_read_only" {
+  bucket = aws_s3_bucket.data_output_bucket.id
   policy = templatefile("${path.module}/bucket_policy/s3-output-bucket-policy.json", { bucket = var.DataOutputBucketName, AWSTERRAFORMSPN = var.TerraformSPNArn })
-  depends_on = [aws_s3_bucket_ownership_controls.data_bucket_acl_ownership]
+  depends_on = [aws_s3_bucket_ownership_controls.data_output_bucket_acl_ownership]
 }

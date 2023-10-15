@@ -52,20 +52,43 @@ provider "random" {
 module "core_infra_deployment" {
   source = "./deploy_core"
 
+  region               = var.region
   TerraformSPNArn      = data.aws_caller_identity.current.arn
-  # deployvm             = var.deployvm
+  deployvm             = var.deployvm
   deploylambda         = var.deploylambda
   deploycontainer      = var.deploycontainer
   DataOutputBucketName = var.DataOutputBucketName
   common_tags          = local.common_tags
 } 
 
+
+module "vm_deployment" {
+  count  = var.deployvm ? 1 : 0
+  source = "./deploy_vm"
+
+  prod_clients         = var.prod_clients
+  CallerID             = data.aws_caller_identity.current.account_id
+  instance_type        = var.instance_type
+  DataOutputBucketName = var.DataOutputBucketName
+  sshpublickey         = var.sshpublickey
+  common_tags          = local.common_tags
+}
+
 module "lambda_batch_deployment" {
   count  = var.deploylambda ? 1 : 0
   source = "./deploy_lambda"
 
-  outputbucketid   = module.core_infra_deployment.outputbucketid
-  common_tags      = local.common_tags
+  outputbucketid = module.core_infra_deployment.outputbucketid
+  common_tags    = local.common_tags
+} 
+
+module "container_registry_deployment" {
+  count  = var.deploylambda ? 1 : var.deploycontainer ? 1 : var.deploycontainerregistry ? 1 : 0
+  source = "./deploy_ecr"
+
+  ecr_repo_name   = var.ecr_repo_name
+  TerraformSPNArn = data.aws_caller_identity.current.arn
+  common_tags     = local.common_tags
 } 
 
 # module "vm_batch_deployment" {
@@ -80,6 +103,6 @@ module "container_batch_deployment" {
   count  = var.deploycontainer ? 1 : 0
   source = "./deploy_container"
 
-  outputbucketid   = module.core_infra_deployment.outputbucketid
-  common_tags      = local.common_tags
+  outputbucketid = module.core_infra_deployment.outputbucketid
+  common_tags    = local.common_tags
 }

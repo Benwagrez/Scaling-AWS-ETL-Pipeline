@@ -55,88 +55,9 @@ resource "aws_iam_policy" "policy" {
 		{
 			"Effect": "Allow",
 			"Action": [
-					"glue:CreateDatabase",
-					"glue:DeleteDatabase",
-					"glue:GetDatabase",
-					"glue:GetDatabases",
-					"glue:UpdateDatabase",
-					"glue:CreateTable",
-					"glue:DeleteTable",
-					"glue:BatchDeleteTable",
-					"glue:UpdateTable",
-					"glue:GetTable",
-					"glue:GetTables",
-					"glue:BatchCreatePartition",
-					"glue:CreatePartition",
-					"glue:DeletePartition",
-					"glue:BatchDeletePartition",
-					"glue:UpdatePartition",
-					"glue:GetPartition",
-					"glue:GetPartitions",
-					"glue:BatchGetPartition"
-			],
-			"Resource": [
-					"*"
-			]
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
 				"s3:GetBucketLocation"
 			],
 			"Resource": "arn:aws:s3:::*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-					"glue:CreateDatabase",
-					"glue:DeleteDatabase",
-					"glue:GetDatabase",
-					"glue:GetDatabases",
-					"glue:UpdateDatabase",
-					"glue:CreateTable",
-					"glue:DeleteTable",
-					"glue:BatchDeleteTable",
-					"glue:UpdateTable",
-					"glue:GetTable",
-					"glue:GetTables",
-					"glue:BatchCreatePartition",
-					"glue:CreatePartition",
-					"glue:DeletePartition",
-					"glue:BatchDeletePartition",
-					"glue:UpdatePartition",
-					"glue:GetPartition",
-					"glue:GetPartitions",
-					"glue:BatchGetPartition"
-			],
-			"Resource": [
-					"*"
-			]
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"athena:StartQueryExecution",
-				"athena:GetWorkGroup",
-				"athena:ListDatabases",
-				"athena:StopQueryExecution",
-				"athena:GetQueryExecution",
-				"athena:GetQueryResults",
-				"athena:GetDatabase",
-				"athena:GetDataCatalog",
-				"athena:ListQueryExecutions"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-					"ses:SendEmail",
-					"ses:SendRawEmail",
-					"sns:ListTopics",
-					"sns:GetTopicAttributes"
-			],
-			"Resource": "*"
 		}
 	]
 } 

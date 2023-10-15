@@ -33,6 +33,10 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+containerdeploy.sh
+lambdadeploy.sh
+vmdeploy.sh
+
 packages/*
 ETL_data_query_payload.zip
 ETL_proc_action_payload.zip

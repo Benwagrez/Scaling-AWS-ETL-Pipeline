@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Set up core infrastructure
+terraform apply -var-file="terraform.tfvars"
+
+# Start docker build
+exec env ACCOUNT=194189783006 env REGION=us-east-2 env REPO=rcontainerbin371298372 ./docker/dockerbuild.sh
+
 # Installing Python dependencies into packages and zipping the deployment for ETL Data Query
 pip install --target ./packages/ETLDataQuery -r ./python/ETLDataRequirements.txt --no-user
 7z a -tzip ./ETL_data_query_payload.zip ./packages/ETLDataQuery/*

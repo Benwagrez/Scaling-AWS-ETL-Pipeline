@@ -1,8 +1,4 @@
 #!/bin/bash
-# Setting env vars
-export ACCOUNT=194189783006 
-export REGION=us-east-2 
-export REPO=rcontainerbin371298372
 
 # Installing Python dependencies into packages and zipping the deployment for ETL Data Query
 pip install --target ./packages/ETLDataQuery -r ./python/ETLDataRequirements.txt --no-user
@@ -15,13 +11,4 @@ pip install --target ./packages/ETLDataQuery -r ./python/ETLProcRequirements.txt
 7z a ./ETL_proc_action_payload.zip ./python/ETLProcAction/*
 
 # Set up core infrastructure
-terraform apply -var-file="terraform.tfvars" -var="deploycontainerregistry=true"
-
-# Start docker build
-source ./docker/dockerbuild.sh
-
-# Running Terraform apply for deploy container
-# terraform plan -var-file="terraform.tfvars" -var="deploycontainer=true"
-
-rm ETL_data_query_payload.zip
-rm ETL_proc_action_payload.zip
+terraform destroy -var-file="terraform.tfvars"

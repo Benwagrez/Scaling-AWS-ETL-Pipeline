@@ -7,10 +7,10 @@ variable "common_tags" {
   }
 }
 
-# variable "deployvm" {
-#     type = bool
-#     default = false
-# }
+variable "deployvm" {
+    type = bool
+    default = false
+}
 
 variable "deploylambda" {
     type = bool
@@ -36,4 +36,8 @@ variable "DataQueryCadence" {
 variable "DataOutputBucketName" {
   type = string
   description = "Name of the ETL output bucket"
+}
+
+variable "region" {
+  type = string  
 }

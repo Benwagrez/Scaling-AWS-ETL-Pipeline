@@ -7,6 +7,11 @@ variable "common_tags" {
   }
 }
 
-variable "outputbucketid" {
+variable "TerraformSPNArn" {
+  type = string
+  description = "Arn of the service principal deploying the Terraform code (user owner of access key)."
+}
+
+variable "ecr_repo_name" {
   type = string
 }
