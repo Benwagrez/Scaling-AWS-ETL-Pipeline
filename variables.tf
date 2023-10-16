@@ -39,8 +39,13 @@ variable "AWS_SECRET_KEY" {
 
 # Core Infra Variables
 
-variable "DataOutputBucketName" {
+variable "data_output_bucket_name" {
     type = string
+}
+
+variable "dev_data_output_bucket_name" {
+  type = string
+  description = "Name of the dev ETL output bucket"
 }
 
 # Container Registry Variables
@@ -55,7 +60,11 @@ variable "sshpublickey" {
     type = string
 }
 
-variable "instance_type" {
+variable "prod_instance_type" {
+    type = string
+}
+
+variable "dev_instance_type" {
     type = string
 }
 

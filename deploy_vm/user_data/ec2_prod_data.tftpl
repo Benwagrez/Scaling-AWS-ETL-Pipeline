@@ -12,21 +12,18 @@ $dir = $env:TEMP;
 Set-Location $dir
 
 $urlRStudio = "https://download1.rstudio.org/electron/windows/RStudio-2023.09.0-463.exe"
-$outputRStudio = "$dir\RStudio.exe"
+$outputRStudio = "$dir\RStudio-2023.09.0-463.exe"
 
 $wcRStudio = New-Object System.Net.WebClient
 $wcRStudio.DownloadFile($urlRStudio, $outputRStudio) # $PSScriptRoot 
 
 $urlR = "https://cran.rstudio.com/bin/windows/base/R-4.3.1-win.exe"
-$outputR = "$dir\R-win.exe"
+$outputR = "$dir\R-4.3.1-win.exe"
 $wcR = New-Object System.Net.WebClient
 $wcR.DownloadFile($urlR, $outputR)
 
-$dirRStudio = $dir + "\RStudio.exe"
-$dirR = $dir + "\R-win.exe"
-
-Start-Process -Wait -FilePath $dirRStudio -ArgumentList "/S" -PassThru
-Start-Process -Wait -FilePath $dirR -ArgumentList "/SILENT" -PassThru
+Start-Process -Wait -FilePath $outputRStudio -ArgumentList "/S" -PassThru
+Start-Process -Wait -FilePath $outputR -ArgumentList "/SILENT" -PassThru
 
 $gitconfig = @"
 [Setup]
@@ -69,14 +66,22 @@ Start-Process -FilePath $installer -ArgumentList $install_args -Wait
 
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
-$gitconnect = Get-SSMParameter -Name ${gitpath}
+$gitconnect = Get-SSMParameter -Name "${gitpath}"
 git clone $gitconnect.value
 
 $script = @" 
 $file = $env:SystemRoot + "\Temp\" + (Get-Date).ToString("MM-dd-yy-hh-mm")
 New-Item $file -ItemType file
 
-Rscript.exe C:\someScript.R
+cd "C:\Program Files\R\R-4.3.1\bin"
+
+.\Rscript.exe "C:\Users\Administrator\AppData\Local\Temp\Gainsville\run_all.R"
+
+Start-Sleep -Seconds 120
+
+$instanceid = Get-EC2InstanceMetadata -Category InstanceId
+Stop-EC2Instance -InstanceId $instanceid -Hibernate 1
+
 "@
 
 New-Item script.ps1 -ItemType file -Value $script
@@ -90,8 +95,15 @@ $O = @{
   MultipleInstancePolicy="Queue"
 }
 
-Register-ScheduledJob -Name RunDataProcessor -FilePath $executor -Trigger $T -ScheduledJobOption $O
+Register-ScheduledJob -Name RunDataProcessor -FilePath script.ps1 -Trigger $T -ScheduledJobOption $O
+
+cd "C:\Program Files\R\R-4.3.1\bin"
+.\Rscript.exe "C:\Users\Administrator\AppData\Local\Temp\Gainsville\install.R"
 
 Get-WindowsUpdate -AcceptAll -Install
-Stop-Computer -ComputerName localhost
+
+Start-Sleep -Seconds 120
+
+$instanceid = Get-EC2InstanceMetadata -Category InstanceId
+Stop-EC2Instance -InstanceId $instanceid -Hibernate 1
 </powershell>

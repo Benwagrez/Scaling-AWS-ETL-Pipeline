@@ -33,9 +33,14 @@ variable "DataQueryCadence" {
   description = "Name of the ETL input bucket"
 }
 
-variable "DataOutputBucketName" {
+variable "data_output_bucket_name" {
   type = string
   description = "Name of the ETL output bucket"
+}
+
+variable "dev_data_output_bucket_name" {
+  type = string
+  description = "Name of the dev ETL output bucket"
 }
 
 variable "region" {

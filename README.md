@@ -58,7 +58,8 @@ TBD
     </tr>
 </table>
 The architecture diagram for this diagram is displayed below:
-TBD
+
+![VM Deployment Diagram](assets/VMETLDiagram.jpg)
 
 Terraform Module:
 TBD

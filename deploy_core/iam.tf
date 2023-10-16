@@ -50,7 +50,7 @@ resource "aws_iam_policy" "policy" {
 				"s3:ListAllMyBuckets",
 				"s3:GetObjectAttributes"
 			],
-			"Resource": [ "arn:aws:s3:::${var.DataOutputBucketName}/*", "arn:aws:s3:::${var.DataOutputBucketName}"]
+			"Resource": [ "arn:aws:s3:::${var.data_output_bucket_name}/*", "arn:aws:s3:::${var.data_output_bucket_name}"]
 		},
 		{
 			"Effect": "Allow",
@@ -97,8 +97,8 @@ resource "aws_iam_policy" "data_visualization_policy" {
       ],
       "Effect": "Allow",
       "Resource": [ 
-				"arn:aws:s3:::${var.DataOutputBucketName}/*",
-				"arn:aws:s3:::${var.DataOutputBucketName}" 
+				"arn:aws:s3:::${var.data_output_bucket_name}/*",
+				"arn:aws:s3:::${var.data_output_bucket_name}" 
 			]
     }
   ]

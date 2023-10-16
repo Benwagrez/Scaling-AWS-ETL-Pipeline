@@ -12,21 +12,18 @@ $dir = $env:TEMP;
 Set-Location $dir
 
 $urlRStudio = "https://download1.rstudio.org/electron/windows/RStudio-2023.09.0-463.exe"
-$outputRStudio = "$dir\RStudio.exe"
+$outputRStudio = "$dir\RStudio-2023.09.0-463.exe"
 
 $wcRStudio = New-Object System.Net.WebClient
 $wcRStudio.DownloadFile($urlRStudio, $outputRStudio) # $PSScriptRoot 
 
 $urlR = "https://cran.rstudio.com/bin/windows/base/R-4.3.1-win.exe"
-$outputR = "$dir\R-win.exe"
+$outputR = "$dir\R-4.3.1-win.exe"
 $wcR = New-Object System.Net.WebClient
 $wcR.DownloadFile($urlR, $outputR)
 
-$dirRStudio = $dir + "\RStudio.exe"
-$dirR = $dir + "\R-win.exe"
-
-Start-Process -Wait -FilePath $dirRStudio -ArgumentList "/S" -PassThru
-Start-Process -Wait -FilePath $dirR -ArgumentList "/SILENT" -PassThru
+Start-Process -Wait -FilePath $outputRStudio -ArgumentList "/S" -PassThru
+Start-Process -Wait -FilePath $outputR -ArgumentList "/SILENT" -PassThru
 
 $gitconfig = @"
 [Setup]

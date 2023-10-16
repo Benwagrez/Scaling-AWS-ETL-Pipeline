@@ -52,13 +52,14 @@ provider "random" {
 module "core_infra_deployment" {
   source = "./deploy_core"
 
-  region               = var.region
-  TerraformSPNArn      = data.aws_caller_identity.current.arn
-  deployvm             = var.deployvm
-  deploylambda         = var.deploylambda
-  deploycontainer      = var.deploycontainer
-  DataOutputBucketName = var.DataOutputBucketName
-  common_tags          = local.common_tags
+  region                      = var.region
+  TerraformSPNArn             = data.aws_caller_identity.current.arn
+  deployvm                    = var.deployvm
+  deploylambda                = var.deploylambda
+  deploycontainer             = var.deploycontainer
+  data_output_bucket_name     = var.data_output_bucket_name
+  dev_data_output_bucket_name = var.dev_data_output_bucket_name
+  common_tags                 = local.common_tags
 } 
 
 
@@ -66,12 +67,15 @@ module "vm_deployment" {
   count  = var.deployvm ? 1 : 0
   source = "./deploy_vm"
 
-  prod_clients         = var.prod_clients
-  CallerID             = data.aws_caller_identity.current.account_id
-  instance_type        = var.instance_type
-  DataOutputBucketName = var.DataOutputBucketName
-  sshpublickey         = var.sshpublickey
-  common_tags          = local.common_tags
+  region                      = var.region
+  prod_clients                = var.prod_clients
+  caller_id                   = data.aws_caller_identity.current.account_id
+  prod_instance_type          = var.prod_instance_type
+  dev_instance_type           = var.dev_instance_type
+  data_output_bucket_name     = var.data_output_bucket_name
+  dev_data_output_bucket_name = var.dev_data_output_bucket_name
+  sshpublickey                = var.sshpublickey
+  common_tags                 = local.common_tags
 }
 
 module "lambda_batch_deployment" {

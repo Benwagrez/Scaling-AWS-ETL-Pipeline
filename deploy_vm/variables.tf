@@ -7,7 +7,11 @@ variable "common_tags" {
   }
 }
 
-variable "CallerID" {
+variable "region" {
+  type = string
+}
+
+variable "caller_id" {
   type = string
 }
 
@@ -15,12 +19,21 @@ variable "sshpublickey" {
   type = string
 }
 
-variable "DataOutputBucketName"{
+variable "data_output_bucket_name"{
   type = string
 }
 
-variable "instance_type" {
-  type = string  
+variable "dev_data_output_bucket_name" {
+  type = string
+  description = "Name of the dev ETL output bucket"
+}
+
+variable "prod_instance_type" {
+    type = string
+}
+
+variable "dev_instance_type" {
+    type = string
 }
 
 variable "prod_clients" {

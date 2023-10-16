@@ -18,7 +18,7 @@ resource "aws_lambda_function" "lambda_deploy" {
   environment {
     variables = {
       region               = var.region
-      DataOutputBucketName = var.DataOutputBucketName
+      DataOutputBucketName = var.data_output_bucket_name
       cronjobcadence       = var.DataQueryCadence
       deployvm             = var.deployvm
       deploylambda         = var.deploylambda
