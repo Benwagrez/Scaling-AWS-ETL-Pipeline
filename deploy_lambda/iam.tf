@@ -19,15 +19,15 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 # Create IAM role for Lambda funtion
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = "iam_for_lambda"
+resource "aws_iam_role" "iam_for_etl_lambda" {
+  name               = "iam_for_etl_lambda"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
 # Created S3 & Athena access Policy for IAM Role
-resource "aws_iam_policy" "policy" {
-  name = "LambdaS3AthenaAccessPolicy"
-  description = "Access policy granting Lambda access to S3 bucket where athena outputs will be stored and Amazon Athena."
+resource "aws_iam_policy" "etl_policy" {
+  name = "ETLLambdaS3AccessPolicy"
+  description = "Access policy granting Lambda access to S3 bucket."
 
   policy = <<EOF
 {
@@ -65,7 +65,7 @@ resource "aws_iam_policy" "policy" {
 }
 
 # Attaching iam role to lambda action policy
-resource "aws_iam_role_policy_attachment" "test-attach" {
-  role       = "${aws_iam_role.iam_for_lambda.name}"
-  policy_arn = "${aws_iam_policy.policy.arn}"
+resource "aws_iam_role_policy_attachment" "etl-attach" {
+  role       = "${aws_iam_role.iam_for_etl_lambda.name}"
+  policy_arn = "${aws_iam_policy.etl_policy.arn}"
 }

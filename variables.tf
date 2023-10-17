@@ -54,6 +54,12 @@ variable "ecr_repo_name" {
     type = string
 }
 
+# Lambda Variables
+variable "etl_func_name" {
+    type     = string
+    nullable = true
+}
+
 # VM Variables
 
 variable "prod_ssh_public_key" {

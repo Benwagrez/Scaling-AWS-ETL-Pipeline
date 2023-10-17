@@ -2,24 +2,19 @@
 # = Lambda Function Deploy = #
 # ========================== #
 # Purpose
-# Deploying Lambda function for the visitor notification system
-# Includes a zipped file payload of the python code
+# Deploying Lambda function for the ETL Data Processor
 
 resource "aws_lambda_function" "lambda_deploy" {
   image_uri     = "${var.ecr_url}:latest"
-  function_name = "DataProcessor"
-  role          = aws_iam_role.iam_for_lambda.arn
+  function_name = var.etl_func_name
+  role          = aws_iam_role.iam_for_etl_lambda.arn
+  package_type  = "Image"
 
   timeout = 60
-  environment {
-    variables = {
-      bucketname = var.outputbucketid
-    }
-  }
 
-  image_config {
-    entry_point = "action"
-  }
+  # image_config {
+  #   entry_point = "runner"
+  # }
 
   tags = "${merge(
     var.common_tags,

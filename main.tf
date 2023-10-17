@@ -52,6 +52,8 @@ provider "random" {
 module "core_infra_deployment" {
   source = "./deploy_core"
 
+  etl_func_name               = var.etl_func_name
+  prod_clients                = var.prod_clients
   region                      = var.region
   TerraformSPNArn             = data.aws_caller_identity.current.arn
   deployvm                    = var.deployvm
@@ -82,8 +84,9 @@ module "vm_deployment" {
 module "lambda_deployment" {
   count  = var.deploylambda ? 1 : 0
   source = "./deploy_lambda"
-  
-  ecr_url        = module.container_registry_deployment.ecr_repo_url
+
+  etl_func_name  = var.etl_func_name
+  ecr_url        = module.container_registry_deployment[0].ecr_repo_url
   outputbucketid = module.core_infra_deployment.outputbucketid
   common_tags    = local.common_tags
 } 

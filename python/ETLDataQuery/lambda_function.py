@@ -2,6 +2,8 @@ import boto3
 import json
 import os
 
+etllambda						 = os.environ["etllambda"]		
+prodclients					 = os.environ["prodclients"]
 region               = os.environ["region"]
 DataOutputBucketName = os.environ["DataOutputBucketName"]
 cronjobcadence       = os.environ["cronjobcadence"] # how often a cron job it run, to pull from previous pull
@@ -42,7 +44,21 @@ def lambda_handler(event, context):
 
 		return response
 	elif deploylambda == "true":
-		response=1
+		invokelambda = boto3.client('lambda')
+		for x in prodclients:
+				payload = {"client":x.Name,"gitstring":x.GitConnectionString}
+				response = invokelambda.invoke(
+						FunctionName		= etllambda,
+						InvocationType	= "Event",
+						Payload					= bytes(json.dumps(payload), "utf-8")
+				)
+				print(json.loads(response['Payload'].read()))
+				print("\n")
+		
+		response = {
+			'statusCode': 200,
+			'body': json.dumps("200 SUCCESS")
+		}
 		return response
 	elif deploycontainer == "true":
 		response=1

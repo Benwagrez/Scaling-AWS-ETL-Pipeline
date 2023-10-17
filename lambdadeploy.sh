@@ -19,5 +19,4 @@ source ./docker/dockerbuild.sh
 terraform apply -var-file="terraform.tfvars" -var="deploylambda=true"
 
 # Cleaning up working directory
-rm ETL_proc_action_payload.zip
 rm ETL_data_query_payload.zip

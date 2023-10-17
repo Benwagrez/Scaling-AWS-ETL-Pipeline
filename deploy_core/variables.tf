@@ -2,7 +2,7 @@ variable "common_tags" {
   type = map(string)
   description = "Commong tags to provision on resources created in Terraform"
   default = {
-      Infra = "deploy_vm",
+      Infra = "ETL Pipeline",
       Owner = "benwagrez@gmail.com"
   }
 }
@@ -45,4 +45,16 @@ variable "dev_data_output_bucket_name" {
 
 variable "region" {
   type = string  
+}
+
+variable "etl_func_name" {
+    type     = string
+    nullable = true
+}
+
+variable "prod_clients" {
+  type = list(object({
+    Name = string
+    GitConnectionString = string
+  }))
 }

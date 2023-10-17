@@ -8,11 +8,15 @@ variable "ecr_url" {
   type = string
 }
 
+variable "etl_func_name" {
+    type = string
+}
+
 variable "common_tags" {
   type = map(string)
   description = "Commong tags to provision on resources created in Terraform"
   default = {
-		Infra = "Lambda_Visitor_Query",
+		Infra = "ETL Pipeline",
 		Owner = "benwagrez@gmail.com"
   }
 }

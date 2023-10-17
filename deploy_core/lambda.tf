@@ -17,6 +17,8 @@ resource "aws_lambda_function" "lambda_deploy" {
   timeout = 30
   environment {
     variables = {
+      etllambda            = var.etl_func_name
+      prodclients          = jsonencode(var.prod_clients)
       region               = var.region
       DataOutputBucketName = var.data_output_bucket_name
       cronjobcadence       = var.DataQueryCadence

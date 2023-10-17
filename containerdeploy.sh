@@ -16,7 +16,6 @@ terraform apply -var-file="terraform.tfvars" -var="deploycontainerregistry=true"
 source ./docker/dockerbuild.sh
 
 # Running Terraform apply for deploy container
-# terraform plan -var-file="terraform.tfvars" -var="deploycontainer=true"
+terraform apply -var-file="terraform.tfvars" -var="deploycontainer=true"
 
 rm ETL_data_query_payload.zip
-rm ETL_proc_action_payload.zip
