@@ -74,14 +74,16 @@ module "vm_deployment" {
   dev_instance_type           = var.dev_instance_type
   data_output_bucket_name     = var.data_output_bucket_name
   dev_data_output_bucket_name = var.dev_data_output_bucket_name
-  sshpublickey                = var.sshpublickey
+  prod_ssh_public_key         = var.prod_ssh_public_key
+  dev_ssh_public_key          = var.dev_ssh_public_key
   common_tags                 = local.common_tags
 }
 
-module "lambda_batch_deployment" {
+module "lambda_deployment" {
   count  = var.deploylambda ? 1 : 0
   source = "./deploy_lambda"
-
+  
+  ecr_url        = module.container_registry_deployment.ecr_repo_url
   outputbucketid = module.core_infra_deployment.outputbucketid
   common_tags    = local.common_tags
 } 
@@ -95,13 +97,6 @@ module "container_registry_deployment" {
   common_tags     = local.common_tags
 } 
 
-# module "vm_batch_deployment" {
-#   count  = var.deployvm ? 1 : 0
-#   source = "./deploy_vm"
-
-#   outputbucketid   = module.core_infra_deployment.outputbucketid
-#   common_tags      = local.common_tags
-# }
 
 module "container_batch_deployment" {
   count  = var.deploycontainer ? 1 : 0

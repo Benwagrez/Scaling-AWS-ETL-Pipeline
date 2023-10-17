@@ -56,7 +56,11 @@ variable "ecr_repo_name" {
 
 # VM Variables
 
-variable "sshpublickey" {
+variable "prod_ssh_public_key" {
+    type = string
+}
+
+variable "dev_ssh_public_key" {
     type = string
 }
 

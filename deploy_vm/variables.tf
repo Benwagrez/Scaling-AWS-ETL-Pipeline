@@ -15,8 +15,12 @@ variable "caller_id" {
   type = string
 }
 
-variable "sshpublickey" {
-  type = string
+variable "prod_ssh_public_key" {
+    type = string
+}
+
+variable "dev_ssh_public_key" {
+    type = string
 }
 
 variable "data_output_bucket_name"{
