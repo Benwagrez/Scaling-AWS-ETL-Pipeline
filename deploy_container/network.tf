@@ -1,6 +1,6 @@
 resource "aws_security_group" "ecs_security_Group" {
   name = "aws_batch_compute_environment_security_group"
-
+  vpc_id     = aws_vpc.ecs_vpc.id
   egress {
     from_port   = 0
     to_port     = 0

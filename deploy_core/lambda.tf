@@ -17,6 +17,8 @@ resource "aws_lambda_function" "lambda_deploy" {
   timeout = 30
   environment {
     variables = {
+      job_queue_arn				 = var.job_queue_arn
+      job_definition_arn   = var.job_definition_arn
       etllambda            = var.etl_func_name
       prodclients          = jsonencode(var.prod_clients)
       region               = var.region

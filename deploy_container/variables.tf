@@ -7,6 +7,22 @@ variable "common_tags" {
   }
 }
 
+variable "ecr_url" {
+  type = string
+}
+
 variable "outputbucketid" {
+  type = string
+}
+
+variable "data_output_bucket_name" {
+  type = string
+}
+
+variable "caller_id" {
+  type = string
+}
+
+variable "region" {
   type = string
 }

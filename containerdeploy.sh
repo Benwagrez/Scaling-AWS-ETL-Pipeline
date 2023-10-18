@@ -18,4 +18,5 @@ source ./docker/dockerbuild.sh
 # Running Terraform apply for deploy container
 terraform apply -var-file="terraform.tfvars" -var="deploycontainer=true"
 
+# Cleaning up working directory
 rm ETL_data_query_payload.zip

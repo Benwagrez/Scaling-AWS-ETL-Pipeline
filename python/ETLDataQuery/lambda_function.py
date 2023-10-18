@@ -2,6 +2,8 @@ import boto3
 import json
 import os
 
+job_queue_arn				 = os.environ["job_queue_arn"]		
+job_definition_arn   = os.environ["job_definition_arn"]		
 etllambda						 = os.environ["etllambda"]		
 prodclients					 = os.environ["prodclients"]
 region               = os.environ["region"]
@@ -14,8 +16,8 @@ output               ='s3://'+DataOutputBucketName+'/dataquery/'# Where API quer
 
 def lambda_handler(event, context):
 	if deployvm == "true":
-		ec2idgrab = boto3.resource('ec2', region_name=region)
-		ec2 = boto3.client('ec2', region_name=region)
+		ec2foo = boto3.resource('ec2', region_name=region)
+		invokeec2 = boto3.client('ec2', region_name=region)
 		filters = [
 			{
 				'Name': 'tag:Group',
@@ -27,14 +29,14 @@ def lambda_handler(event, context):
 			}
 		]
 
-		instances = ec2idgrab.instances.filter(Filters=filters)
+		instances = ec2foo.instances.filter(Filters=filters)
 
 		ListOfInstances = [instance.id for instance in instances]
 
 		if len(ListOfInstances) > 0:
 			print("found instances with tag")
 			print(ListOfInstances)
-			response = ec2.start_instances(InstanceIds=ListOfInstances)
+			response = invokeec2.start_instances(InstanceIds=ListOfInstances)
 		else:
 			print("none found")
 			response = {
@@ -44,7 +46,7 @@ def lambda_handler(event, context):
 
 		return response
 	elif deploylambda == "true":
-		invokelambda = boto3.client('lambda')
+		invokelambda = boto3.client('lambda', region_name=region)
 		for x in prodclients:
 				payload = {"client":x.Name,"gitstring":x.GitConnectionString}
 				response = invokelambda.invoke(
@@ -61,7 +63,22 @@ def lambda_handler(event, context):
 		}
 		return response
 	elif deploycontainer == "true":
-		response=1
+		invokebatch = boto3.client('batch', region_name=region)
+		
+		job_name = "data-proc-job"
+		job_queue = os.environ.get("job_queue")
+		job_definition = os.environ.get("job_definition")
+		print("Submitting job named '{job_name}' to queue '{job_queue}' with definition '{job_definition}'")
+		response = invokebatch.submit_job(
+			jobName=job_name,
+			jobQueue=job_queue,
+			jobDefinition=job_definition,
+		)
+		print("Submission successful, job ID: {response['jobId']}")
+		response = {
+			'statusCode': 200,
+			'body': json.dumps("200 SUCCESS")
+		}
 		return response
 	else:
 		return {

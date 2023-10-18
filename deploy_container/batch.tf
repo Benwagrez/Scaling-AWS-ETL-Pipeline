@@ -17,7 +17,7 @@ resource "aws_batch_compute_environment" "ecs_batch" {
 
   service_role = aws_iam_role.aws_batch_service_role.arn
   type         = "MANAGED"
-  depends_on   = [aws_iam_role_policy_attachment.aws_batch_service_role]
+  depends_on   = [aws_iam_role_policy_attachment.aws_batch_service_role,aws_security_group.ecs_security_Group]
 }
 
 resource "aws_batch_job_definition" "ecs_batch_job" {
@@ -29,9 +29,8 @@ resource "aws_batch_job_definition" "ecs_batch_job" {
   ]
 
   container_properties = jsonencode({
-    command    = ["echo", "test"]
-    image      = "busybox"
-    jobRoleArn = "arn:aws:iam::123456789012:role/AWSBatchS3ReadOnly"
+    image      = "${var.ecr_url}:latest"
+    jobRoleArn = aws_iam_role.ecs_data_role.arn
 
     fargatePlatformConfiguration = {
       platformVersion = "LATEST"

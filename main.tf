@@ -52,6 +52,8 @@ provider "random" {
 module "core_infra_deployment" {
   source = "./deploy_core"
 
+  job_queue_arn               = var.deploycontainer ? module.container_batch_deployment[0].job_queue_arn : null
+  job_definition_arn          = var.deploycontainer ? module.container_batch_deployment[0].job_definition_arn : null
   etl_func_name               = var.etl_func_name
   prod_clients                = var.prod_clients
   region                      = var.region
@@ -105,6 +107,10 @@ module "container_batch_deployment" {
   count  = var.deploycontainer ? 1 : 0
   source = "./deploy_container"
 
-  outputbucketid = module.core_infra_deployment.outputbucketid
-  common_tags    = local.common_tags
+  region                  = var.region
+  data_output_bucket_name = var.data_output_bucket_name
+  caller_id               = data.aws_caller_identity.current.account_id
+  ecr_url                 = module.container_registry_deployment[0].ecr_repo_url
+  outputbucketid          = module.core_infra_deployment.outputbucketid
+  common_tags             = local.common_tags
 }

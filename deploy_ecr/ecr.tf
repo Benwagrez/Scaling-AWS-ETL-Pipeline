@@ -21,3 +21,26 @@ resource "aws_ecr_repository_policy" "TerraformSPNPolicy" {
   repository = aws_ecr_repository.r_ecr_repo.name
   policy     = data.aws_iam_policy_document.TerraformSPNPolicy.json
 }
+
+resource "aws_ecr_lifecycle_policy" "repositoryPolicy" {
+  repository = aws_ecr_repository.r_ecr_repo.name
+
+  policy = <<EOF
+{
+  "rules": [
+    {
+      "rulePriority": 1,
+      "description": "Delete older images",
+      "selection": {
+        "tagStatus": "any",
+        "countType": "imageCountMoreThan",
+        "countNumber": 2
+      },
+      "action": {
+        "type": "expire"
+      }
+    }
+  ]
+}
+EOF
+}

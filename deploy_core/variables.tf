@@ -43,6 +43,16 @@ variable "dev_data_output_bucket_name" {
   description = "Name of the dev ETL output bucket"
 }
 
+variable "job_queue_arn" {
+  type     = string
+  nullable = true
+}
+
+variable "job_definition_arn" {
+  type     = string
+  nullable = true
+}
+
 variable "region" {
   type = string  
 }
