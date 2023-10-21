@@ -46,7 +46,7 @@ provider "random" {
 # ------------------------------------ #
 # core_infra_deployment      | For Core Infrastructure deployment - default across all deployment types
 # lambda_batch_deployment    | For lambda deployment - Depends on deploylambda var
-# vm_batch_deployment        | For VM deployment - Depends on deployvm var
+# vm_deployment              | For VM deployment - Depends on deployvm var
 # container_batch_deployment | For container deployment - Depends on deploycontainer var
 
 module "core_infra_deployment" {

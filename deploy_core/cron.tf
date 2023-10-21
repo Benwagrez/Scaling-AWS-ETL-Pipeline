@@ -7,7 +7,7 @@
 resource "aws_cloudwatch_event_rule" "data_pull_cron" {
   name                = "data_pull_cron_job"
   description         = "Data pull cron job to pull data from source into S3 bucket"
-  schedule_expression = "rate(${var.DataQueryCadence})"
+  schedule_expression = "cron(0 10 * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "delete_old_amis" {

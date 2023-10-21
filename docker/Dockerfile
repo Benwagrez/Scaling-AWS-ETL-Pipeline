@@ -15,6 +15,7 @@ ENV PATH="${PATH}:/opt/R/${R_VERSION}/bin/"
 RUN yum -y install openssl-devel
 
 RUN Rscript -e "install.packages(c('httr', 'jsonlite', 'logger', 'remotes', 'lambdr'), repos = 'https://packagemanager.rstudio.com/all/__linux__/centos7/latest')"
+RUN Rscript -e "install.packages(c('aws.s3', 'aws.ec2metadata', 'RSocrata', 'tidyverse', 'lubridate', 'feather', 'leaflet', 'leaflet.extras', 'leaflet.providers', 'shiny', 'RColorBrewer', 'janitor', 'openxlsx'), repos = 'https://packagemanager.rstudio.com/all/__linux__/centos7/latest')"
 RUN Rscript -e "remotes::install_github('mdneuzerling/lambdr')"
 
 RUN mkdir /lambda

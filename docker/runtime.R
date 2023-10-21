@@ -4,14 +4,14 @@ runner <- function(client, gitstring) {
   system(x)
 
   # Install required libraries
-  source("/lambda/app/Rinstall.R")
+  source("/lambda/app/install_packages.R")
   Rinstall() 
 
   # Execute Data processing
+  setwd("/lambda/app/")
   source("/lambda/app/run_all.R")
-  run_all()
   lsresult = system("ls /lambda/app")
-  result <- sprintf("result is %s and hopefully %s", a, lsresult)
+  result <- sprintf("result is %s and hopefully %s", x, lsresult)
   return(result) 
 }
 

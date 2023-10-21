@@ -70,18 +70,16 @@ $gitconnect = Get-SSMParameter -Name "${gitpath}"
 git clone $gitconnect.value
 
 $script = @" 
-$file = $env:SystemRoot + "\Temp\" + (Get-Date).ToString("MM-dd-yy-hh-mm")
-New-Item $file -ItemType file
+`$file = `$env:SystemRoot + '\Temp\' + (Get-Date).ToString('MM-dd-yy-hh-mm')
+New-Item `$file -ItemType file
 
-cd "C:\Program Files\R\R-4.3.1\bin"
-
-.\Rscript.exe "C:\Users\Administrator\AppData\Local\Temp\Gainsville\run_all.R"
+cd 'C:\Users\Administrator\AppData\Local\Temp\Gainsville\' 
+& 'C:\Program Files\R\R-4.3.1\bin\Rscript.exe' run_all.R
 
 Start-Sleep -Seconds 120
 
-$instanceid = Get-EC2InstanceMetadata -Category InstanceId
-Stop-EC2Instance -InstanceId $instanceid -Hibernate 1
-
+`$instanceid = Get-EC2InstanceMetadata -Category InstanceId
+Stop-EC2Instance -InstanceId `$instanceid -Hibernate 1
 "@
 
 New-Item script.ps1 -ItemType file -Value $script
@@ -97,12 +95,10 @@ $O = @{
 
 Register-ScheduledJob -Name RunDataProcessor -FilePath script.ps1 -Trigger $T -ScheduledJobOption $O
 
-cd "C:\Program Files\R\R-4.3.1\bin"
-.\Rscript.exe "C:\Users\Administrator\AppData\Local\Temp\Gainsville\install.R"
+cd "C:\Users\Administrator\AppData\Local\Temp\Gainsville\" 
+& "C:\Program Files\R\R-4.3.1\bin\Rscript.exe" install_packages.R
 
 Get-WindowsUpdate -AcceptAll -Install
-
-Start-Sleep -Seconds 120
 
 $instanceid = Get-EC2InstanceMetadata -Category InstanceId
 Stop-EC2Instance -InstanceId $instanceid -Hibernate 1

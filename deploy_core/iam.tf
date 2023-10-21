@@ -100,6 +100,18 @@ resource "aws_iam_policy" "data_visualization_policy" {
 				"arn:aws:s3:::${var.data_output_bucket_name}/*",
 				"arn:aws:s3:::${var.data_output_bucket_name}" 
 			]
+    },
+    {
+      "Action": [
+        "s3:GetObject",
+				"s3:GetBucketLocation",
+				"s3:ListBucket"
+      ],
+      "Effect": "Allow",
+      "Resource": [ 
+				"arn:aws:s3:::${var.dev_data_output_bucket_name}/*",
+				"arn:aws:s3:::${var.dev_data_output_bucket_name}" 
+			]
     }
   ]
 }

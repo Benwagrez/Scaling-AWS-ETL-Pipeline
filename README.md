@@ -4,11 +4,14 @@ Hey everyone! Welcome to my AWS ETL Pipeline. This repository holds three differ
 ## Prerequisites
 The following items are prerequisites for this deployment.
 <ul>
-    <li>TBD</li>
+    <li>Create IAM credentials with correct permissions for Terraform to assume when building resources</li>
+    <li>The following software/tools installed: Terraform, AWS CLI, Docker</li>
 </ul>
 
 ## Deployment use-case
-These deployment strategies were developed with a particular use-case in mind: A data analytics company is looking to move their operations to the cloud. In their current workflow, they pull raw data from an external cloud portal. They must be able to process this data with their programming language of choice, R, and store this in a cloud storage solution that Tableau can query.
+These deployment strategies were developed with a particular use-case in mind: A data analytics company is looking to move their operations to the cloud. In their current workflow, they pull raw data from an external cloud portal. They must be able to process this data with their programming language of choice, R, and store this in a cloud storage solution that Tableau can query. 
+
+The scripts used for data analysis are proprietary and as a result are not shared in this repo. The infrastructure is functional and proven but any data analysis will fall upon the user to create the scripts.
 
 ## Deployment Overview
 Why three deployments? Clouds versatility allows for flexible solutions, it also allows for many solutions. Solving the same use-case three different ways helps me understand the complexity of each solution, from an architect and a client perspective. Further I can compare the costs of each solution and production viability. Is there a potential solution I missed? Let me know and I'll look into adding it.
@@ -65,7 +68,7 @@ module.lambda_deployment
         <th>Status</th><th>Deployment Cost</th>
     </tr>
     <tr>
-        <td>Final Touches</td><td>TBD</td>
+        <td>Complete</td><td>Data-dependent S3 storage costs / Minor EC2 infra costs</td>
     </tr>
 </table>
 The architecture diagram for this diagram is displayed below:
